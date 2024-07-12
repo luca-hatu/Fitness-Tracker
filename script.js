@@ -3,6 +3,35 @@ let totalDistance = 0;
 let goalCalories = 0;
 let goalDistance = 0;
 
+const caloriesChartCtx = document.getElementById('calories-chart').getContext('2d');
+const distanceChartCtx = document.getElementById('distance-chart').getContext('2d');
+
+const caloriesChart = new Chart(caloriesChartCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Consumed', 'Remaining'],
+        datasets: [{
+            label: 'Calories',
+            data: [0, 1], // Initial values
+            backgroundColor: ['#007bff', '#e9ecef'],
+            borderWidth: 1
+        }]
+    }
+});
+
+const distanceChart = new Chart(distanceChartCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Covered', 'Remaining'],
+        datasets: [{
+            label: 'Distance',
+            data: [0, 1], // Initial values
+            backgroundColor: ['#007bff', '#e9ecef'],
+            borderWidth: 1
+        }]
+    }
+});
+
 document.getElementById('fitness-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -55,6 +84,15 @@ document.getElementById('goal-form').addEventListener('submit', function(event) 
 });
 
 function updateProgress() {
+    const remainingCalories = goalCalories - totalCalories > 0 ? goalCalories - totalCalories : 0;
+    const remainingDistance = goalDistance - totalDistance > 0 ? goalDistance - totalDistance : 0;
+
+    caloriesChart.data.datasets[0].data = [totalCalories, remainingCalories];
+    distanceChart.data.datasets[0].data = [totalDistance, remainingDistance];
+
+    caloriesChart.update();
+    distanceChart.update();
+
     const caloriesProgress = document.getElementById('calories-progress');
     const distanceProgress = document.getElementById('distance-progress');
 
@@ -73,3 +111,4 @@ function updateProgress() {
         distanceProgress.style.color = 'black';
     }
 }
+

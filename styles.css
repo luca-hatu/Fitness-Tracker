@@ -5,8 +5,8 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
 .container {
@@ -15,6 +15,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 400px;
     border-radius: 8px;
+    margin: 20px 0; 
 }
 
 h1 {
@@ -95,12 +96,6 @@ button:hover {
 #session-list li {
     background: #e9ecef;
     margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-#progress p {
-    background: #e9ecef;
     padding: 10px;
     border-radius: 4px;
 }
