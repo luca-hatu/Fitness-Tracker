@@ -50,14 +50,14 @@ const nutritionChart = new Chart(nutritionChartCtx, {
     }
 });
 
-document.getElementById('fitness-form').addEventListener('submit', function (event) {
+document.getElementById('fitness-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const activity = document.querySelector('input[name="activity"]:checked').value;
     const calories = parseInt(document.getElementById('calories').value) || 0;
     const distance = parseFloat(document.getElementById('distance').value) || 0;
     const memo = document.getElementById('memo').value;
-    const energyLevel = document.querySelector('input[name="energy-level"]:checked').value || 1; // Default to level 1 if not selected
+    const energyLevel = document.querySelector('input[name="energy-level"]:checked').value || 1; 
 
     const sessionList = document.getElementById('session-list');
     const sessionItem = document.createElement('li');
@@ -67,6 +67,7 @@ document.getElementById('fitness-form').addEventListener('submit', function (eve
         Calories: ${calories}, Distance: ${distance} km<br>
         Energy Level: ${energyLevel}<br>
         Memo: ${memo}
+        <button class="remove-btn">Remove</button>
     `;
 
     sessionList.appendChild(sessionItem);
@@ -79,7 +80,7 @@ document.getElementById('fitness-form').addEventListener('submit', function (eve
     document.getElementById('fitness-form').reset();
 });
 
-document.getElementById('weight-form').addEventListener('submit', function (event) {
+document.getElementById('weight-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const weightInput = document.getElementById('weight');
@@ -95,7 +96,7 @@ document.getElementById('weight-form').addEventListener('submit', function (even
     }
 });
 
-document.getElementById('goal-form').addEventListener('submit', function (event) {
+document.getElementById('goal-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     goalCalories = parseInt(document.getElementById('goal-calories').value) || 0;
@@ -105,7 +106,7 @@ document.getElementById('goal-form').addEventListener('submit', function (event)
     updateProgress();
 });
 
-document.getElementById('nutrition-form').addEventListener('submit', function (event) {
+document.getElementById('nutrition-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const mealType = document.getElementById('meal-type').value;
@@ -117,6 +118,7 @@ document.getElementById('nutrition-form').addEventListener('submit', function (e
     mealItem.innerHTML = `
         <strong>${capitalizeFirstLetter(mealType)}</strong><br>
         Calories: ${mealCalories}
+        <button class="remove-btn">Remove</button>
     `;
 
     mealList.appendChild(mealItem);
@@ -128,7 +130,7 @@ document.getElementById('nutrition-form').addEventListener('submit', function (e
     document.getElementById('nutrition-form').reset();
 });
 
-document.getElementById('sleep-form').addEventListener('submit', function (event) {
+document.getElementById('sleep-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const sleepStart = new Date(document.getElementById('sleep-start').value);
@@ -151,17 +153,48 @@ document.getElementById('sleep-form').addEventListener('submit', function (event
     document.getElementById('sleep-form').reset();
 });
 
-document.getElementById('increase-hydration').addEventListener('click', function () {
+document.getElementById('increase-hydration').addEventListener('click', function() {
     if (hydrationAmount < hydrationGoal) {
         hydrationAmount++;
         updateHydration();
     }
 });
 
-document.getElementById('decrease-hydration').addEventListener('click', function () {
+document.getElementById('decrease-hydration').addEventListener('click', function() {
     if (hydrationAmount > 0) {
         hydrationAmount--;
         updateHydration();
+    }
+});
+
+document.getElementById('session-list').addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-btn')) {
+        const sessionItem = event.target.parentElement;
+        const sessionList = document.getElementById('session-list');
+        const caloriesText = sessionItem.innerHTML.match(/Calories: (\d+)/);
+        const distanceText = sessionItem.innerHTML.match(/Distance: ([\d.]+)/);
+
+        const calories = caloriesText ? parseInt(caloriesText[1]) : 0;
+        const distance = distanceText ? parseFloat(distanceText[1]) : 0;
+
+        sessionList.removeChild(sessionItem);
+        totalCalories -= calories;
+        totalDistance -= distance;
+        updateProgress();
+    }
+});
+
+document.getElementById('meal-list').addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-btn')) {
+        const mealItem = event.target.parentElement;
+        const mealList = document.getElementById('meal-list');
+        const caloriesText = mealItem.innerHTML.match(/Calories: (\d+)/);
+
+        const mealCalories = caloriesText ? parseInt(caloriesText[1]) : 0;
+
+        mealList.removeChild(mealItem);
+        totalMealCalories -= mealCalories;
+        updateProgress();
     }
 });
 

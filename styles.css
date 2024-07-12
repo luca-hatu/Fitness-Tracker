@@ -183,7 +183,6 @@ button:hover {
     font-size: 2.5em;
     font-weight: bold;
 }
-/* Adjustments for Energy Level Selection */
 .energy-level {
     display: flex;
     justify-content: space-between;
@@ -214,4 +213,17 @@ button:hover {
 
 .energy-level label input[type="radio"]:checked + i {
     color: #007bff;
+}
+.remove-btn {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.remove-btn:hover {
+    background-color: #ff0000;
 }
