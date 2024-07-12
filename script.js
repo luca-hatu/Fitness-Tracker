@@ -3,7 +3,9 @@ let totalDistance = 0;
 let goalCalories = 0;
 let goalDistance = 0;
 let totalMealCalories = 0;
-let dailyCaloriesGoal = 2000;
+let dailyCaloriesGoal = 2000; 
+let hydrationAmount = 0;
+const hydrationGoal = 8; 
 
 const caloriesChartCtx = document.getElementById('calories-chart').getContext('2d');
 const distanceChartCtx = document.getElementById('distance-chart').getContext('2d');
@@ -80,7 +82,7 @@ document.getElementById('goal-form').addEventListener('submit', function(event) 
 
     goalCalories = parseInt(document.getElementById('goal-calories').value) || 0;
     goalDistance = parseFloat(document.getElementById('goal-distance').value) || 0;
-    dailyCaloriesGoal = parseInt(document.getElementById('daily-calories-goal').value) || 2000; 
+    dailyCaloriesGoal = parseInt(document.getElementById('daily-calories-goal').value) || 2000;
 
     updateProgress();
 });
@@ -131,6 +133,20 @@ document.getElementById('sleep-form').addEventListener('submit', function(event)
     document.getElementById('sleep-form').reset();
 });
 
+document.getElementById('increase-hydration').addEventListener('click', function() {
+    if (hydrationAmount < hydrationGoal) {
+        hydrationAmount++;
+        updateHydration();
+    }
+});
+
+document.getElementById('decrease-hydration').addEventListener('click', function() {
+    if (hydrationAmount > 0) {
+        hydrationAmount--;
+        updateHydration();
+    }
+});
+
 function updateProgress() {
 
     updateChartData(caloriesChart, totalCalories, goalCalories);
@@ -152,6 +168,13 @@ function updateProgress() {
     nutritionProgress.style.color = (totalMealCalories >= dailyCaloriesGoal && dailyCaloriesGoal > 0) ? 'green' : 'black';
 }
 
+function updateHydration() {
+    const hydrationStatus = document.getElementById('hydration-amount');
+    const hydrationBar = document.getElementById('hydration-bar');
+    hydrationStatus.textContent = hydrationAmount;
+    hydrationBar.style.width = `${(hydrationAmount / hydrationGoal) * 100}%`;
+}
+
 function updateChartData(chart, value, goal) {
     chart.data.datasets[0].data = [value, Math.max(goal - value, 0)];
     chart.update();
@@ -160,3 +183,4 @@ function updateChartData(chart, value, goal) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+

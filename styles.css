@@ -99,3 +99,44 @@ button:hover {
     padding: 10px;
     border-radius: 4px;
 }
+#hydration {
+    margin-top: 20px;
+}
+
+.hydration-tracker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5em;
+}
+
+#hydration-status {
+    margin: 10px 0;
+}
+
+#hydration-controls button {
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#hydration-bar-container {
+    width: 80%;
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+#hydration-bar {
+    height: 100%;
+    width: 0;
+    background-color: #007bff;
+    transition: width 0.3s;
+}
