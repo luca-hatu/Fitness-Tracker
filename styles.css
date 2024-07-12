@@ -83,7 +83,7 @@ button:hover {
     background: #0056b3;
 }
 
-#sessions {
+#sessions, #goals, #progress {
     margin-top: 20px;
 }
 
@@ -95,6 +95,12 @@ button:hover {
 #session-list li {
     background: #e9ecef;
     margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#progress p {
+    background: #e9ecef;
     padding: 10px;
     border-radius: 4px;
 }

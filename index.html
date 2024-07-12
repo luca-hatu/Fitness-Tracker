@@ -39,9 +39,28 @@
             </div>
             <button type="submit">Add Session</button>
         </form>
+        <div id="goals">
+            <h2>Set Goals</h2>
+            <form id="goal-form">
+                <div class="input-group">
+                    <label for="goal-calories">Goal Calories:</label>
+                    <input type="number" id="goal-calories" name="goal-calories">
+                </div>
+                <div class="input-group">
+                    <label for="goal-distance">Goal Distance (km):</label>
+                    <input type="number" id="goal-distance" name="goal-distance">
+                </div>
+                <button type="submit">Set Goals</button>
+            </form>
+        </div>
         <div id="sessions">
             <h2>Sessions</h2>
             <ul id="session-list"></ul>
+        </div>
+        <div id="progress">
+            <h2>Progress</h2>
+            <p id="calories-progress">Calories: 0/0</p>
+            <p id="distance-progress">Distance: 0/0 km</p>
         </div>
     </div>
     <script src="script.js"></script>
