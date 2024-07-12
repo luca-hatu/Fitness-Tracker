@@ -15,7 +15,7 @@ const caloriesChart = new Chart(caloriesChartCtx, {
         labels: ['Burned', 'Remaining'],
         datasets: [{
             label: 'Calories Burned',
-            data: [0, 1],
+            data: [0, 1], 
             backgroundColor: ['#007bff', '#e9ecef'],
             borderWidth: 1
         }]
@@ -28,7 +28,7 @@ const distanceChart = new Chart(distanceChartCtx, {
         labels: ['Covered', 'Remaining'],
         datasets: [{
             label: 'Distance',
-            data: [0, 1],
+            data: [0, 1], 
             backgroundColor: ['#007bff', '#e9ecef'],
             borderWidth: 1
         }]
@@ -41,7 +41,7 @@ const nutritionChart = new Chart(nutritionChartCtx, {
         labels: ['Consumed', 'Remaining'],
         datasets: [{
             label: 'Nutrition Calories',
-            data: [0, dailyCaloriesGoal],
+            data: [0, dailyCaloriesGoal], 
             backgroundColor: ['#007bff', '#e9ecef'],
             borderWidth: 1
         }]
@@ -60,7 +60,7 @@ document.getElementById('fitness-form').addEventListener('submit', function(even
     const sessionItem = document.createElement('li');
 
     sessionItem.innerHTML = `
-        <strong>${activity.charAt(0).toUpperCase() + activity.slice(1)}</strong><br>
+        <strong>${capitalizeFirstLetter(activity)}</strong><br>
         Calories: ${calories}, Distance: ${distance} km<br>
         Memo: ${memo}
     `;
@@ -80,7 +80,7 @@ document.getElementById('goal-form').addEventListener('submit', function(event) 
 
     goalCalories = parseInt(document.getElementById('goal-calories').value) || 0;
     goalDistance = parseFloat(document.getElementById('goal-distance').value) || 0;
-    dailyCaloriesGoal = parseInt(document.getElementById('daily-calories-goal').value) || 2000; // Default if not set
+    dailyCaloriesGoal = parseInt(document.getElementById('daily-calories-goal').value) || 2000; 
 
     updateProgress();
 });
@@ -95,7 +95,7 @@ document.getElementById('nutrition-form').addEventListener('submit', function(ev
     const mealItem = document.createElement('li');
 
     mealItem.innerHTML = `
-        <strong>${mealType.charAt(0).toUpperCase() + mealType.slice(1)}</strong><br>
+        <strong>${capitalizeFirstLetter(mealType)}</strong><br>
         Calories: ${mealCalories}
     `;
 
@@ -108,43 +108,55 @@ document.getElementById('nutrition-form').addEventListener('submit', function(ev
     document.getElementById('nutrition-form').reset();
 });
 
+document.getElementById('sleep-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const sleepStart = new Date(document.getElementById('sleep-start').value);
+    const sleepEnd = new Date(document.getElementById('sleep-end').value);
+
+    const sleepDurationMs = sleepEnd - sleepStart;
+    const sleepDurationHours = sleepDurationMs / (1000 * 60 * 60);
+
+    const sleepList = document.getElementById('sleep-list');
+    const sleepItem = document.createElement('li');
+
+    sleepItem.innerHTML = `
+        <strong>Sleep Duration:</strong> ${sleepDurationHours.toFixed(2)} hours<br>
+        <strong>Sleep Start:</strong> ${sleepStart.toLocaleString()}<br>
+        <strong>Sleep End:</strong> ${sleepEnd.toLocaleString()}
+    `;
+
+    sleepList.appendChild(sleepItem);
+
+    document.getElementById('sleep-form').reset();
+});
+
 function updateProgress() {
-    const remainingCalories = goalCalories - totalCalories > 0 ? goalCalories - totalCalories : 0;
-    const remainingDistance = goalDistance - totalDistance > 0 ? goalDistance - totalDistance : 0;
-    const remainingMealCalories = goalCalories - totalMealCalories > 0 ? goalCalories - totalMealCalories : 0;
 
-    caloriesChart.data.datasets[0].data = [totalCalories, remainingCalories];
-    distanceChart.data.datasets[0].data = [totalDistance, remainingDistance];
-    nutritionChart.data.datasets[0].data = [totalMealCalories, remainingMealCalories];
+    updateChartData(caloriesChart, totalCalories, goalCalories);
+    updateChartData(distanceChart, totalDistance, goalDistance);
+    updateChartData(nutritionChart, totalMealCalories, dailyCaloriesGoal);
 
-    caloriesChart.update();
-    distanceChart.update();
-    nutritionChart.update();
-
+    
     const caloriesProgress = document.getElementById('calories-progress');
     const distanceProgress = document.getElementById('distance-progress');
     const nutritionProgress = document.getElementById('nutrition-progress');
 
     caloriesProgress.textContent = `Calories Burned: ${totalCalories}/${goalCalories}`;
     distanceProgress.textContent = `Distance: ${totalDistance}/${goalDistance} km`;
-    nutritionProgress.textContent = `Calories Consumed: ${totalMealCalories}/${goalCalories}`;
+    nutritionProgress.textContent = `Calories Consumed: ${totalMealCalories}/${dailyCaloriesGoal}`;
 
-    if (totalCalories >= goalCalories && goalCalories > 0) {
-        caloriesProgress.style.color = 'green';
-    } else {
-        caloriesProgress.style.color = 'black';
-    }
-
-    if (totalDistance >= goalDistance && goalDistance > 0) {
-        distanceProgress.style.color = 'green';
-    } else {
-        distanceProgress.style.color = 'black';
-    }
-
-    if (totalMealCalories >= goalCalories && goalCalories > 0) {
-        nutritionProgress.style.color = 'green';
-    } else {
-        nutritionProgress.style.color = 'black';
-    }
+    
+    caloriesProgress.style.color = (totalCalories >= goalCalories && goalCalories > 0) ? 'green' : 'black';
+    distanceProgress.style.color = (totalDistance >= goalDistance && goalDistance > 0) ? 'green' : 'black';
+    nutritionProgress.style.color = (totalMealCalories >= dailyCaloriesGoal && dailyCaloriesGoal > 0) ? 'green' : 'black';
 }
 
+function updateChartData(chart, value, goal) {
+    chart.data.datasets[0].data = [value, Math.max(goal - value, 0)];
+    chart.update();
+}
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

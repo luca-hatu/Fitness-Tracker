@@ -97,8 +97,24 @@
                 <canvas id="nutrition-chart" width="400" height="200"></canvas>
             </div>
         </div>
+        <div id="sleep-tracking">
+            <h2>Sleep Tracking</h2>
+            <form id="sleep-form">
+                <div class="input-group">
+                    <label for="sleep-start">Sleep Start:</label>
+                    <input type="datetime-local" id="sleep-start" name="sleep-start" required>
+                </div>
+                <div class="input-group">
+                    <label for="sleep-end">Sleep End:</label>
+                    <input type="datetime-local" id="sleep-end" name="sleep-end" required>
+                </div>
+                <button type="submit">Log Sleep</button>
+            </form>
+            <ul id="sleep-list"></ul>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
+
 
