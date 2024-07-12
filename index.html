@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Fitness Tracker</h1>
+        <form id="fitness-form">
+            <div class="activity-type">
+                <label>
+                    <input type="radio" name="activity" value="run" required>
+                    <i class="fas fa-running"></i>
+                </label>
+                <label>
+                    <input type="radio" name="activity" value="cycle">
+                    <i class="fas fa-biking"></i>
+                </label>
+                <label>
+                    <input type="radio" name="activity" value="swim">
+                    <i class="fas fa-swimmer"></i>
+                </label>
+            </div>
+            <div class="input-group">
+                <label for="calories">Calories:</label>
+                <input type="number" id="calories" name="calories" required>
+            </div>
+            <div class="input-group">
+                <label for="distance">Distance (km):</label>
+                <input type="number" id="distance" name="distance" required>
+            </div>
+            <div class="input-group">
+                <label for="memo">Memo:</label>
+                <textarea id="memo" name="memo"></textarea>
+            </div>
+            <button type="submit">Add Session</button>
+        </form>
+        <div id="sessions">
+            <h2>Sessions</h2>
+            <ul id="session-list"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
