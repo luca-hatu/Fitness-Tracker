@@ -7,10 +7,18 @@ let dailyCaloriesGoal = 2000;
 let hydrationAmount = 0;
 const hydrationGoal = 8;
 
+// Macro tracking variables
+let totalProteins = 0;
+let totalFats = 0;
+let totalCarbs = 0;
+
+// Get chart contexts
 const caloriesChartCtx = document.getElementById('calories-chart').getContext('2d');
 const distanceChartCtx = document.getElementById('distance-chart').getContext('2d');
 const nutritionChartCtx = document.getElementById('nutrition-chart').getContext('2d');
+const macroChartCtx = document.getElementById('macro-chart').getContext('2d');
 
+// Initialize charts
 const caloriesChart = new Chart(caloriesChartCtx, {
     type: 'doughnut',
     data: {
@@ -50,6 +58,42 @@ const nutritionChart = new Chart(nutritionChartCtx, {
     }
 });
 
+const macroChart = new Chart(macroChartCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Proteins', 'Fats', 'Carbs'],
+        datasets: [{
+            label: 'Macros',
+            data: [0, 0, 0],
+            backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe'],
+            borderWidth: 1
+        }]
+    }
+});
+
+// Event listener for macro form submission
+document.getElementById('macro-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const proteins = parseInt(document.getElementById('protein').value) || 0;
+    const fats = parseInt(document.getElementById('fat').value) || 0;
+    const carbs = parseInt(document.getElementById('carbs').value) || 0;
+
+    totalProteins += proteins;
+    totalFats += fats;
+    totalCarbs += carbs;
+
+    updateMacroChart();
+
+    document.getElementById('macro-form').reset();
+});
+
+function updateMacroChart() {
+    macroChart.data.datasets[0].data = [totalProteins, totalFats, totalCarbs];
+    macroChart.update();
+}
+
+// Existing event listeners and functions...
 document.getElementById('fitness-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -57,7 +101,7 @@ document.getElementById('fitness-form').addEventListener('submit', function(even
     const calories = parseInt(document.getElementById('calories').value) || 0;
     const distance = parseFloat(document.getElementById('distance').value) || 0;
     const memo = document.getElementById('memo').value;
-    const energyLevel = document.querySelector('input[name="energy-level"]:checked').value || 1; 
+    const energyLevel = document.querySelector('input[name="energy-level"]:checked').value || 1; // Default to level 1 if not selected
 
     const sessionList = document.getElementById('session-list');
     const sessionItem = document.createElement('li');
