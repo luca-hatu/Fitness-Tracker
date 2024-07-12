@@ -76,6 +76,22 @@ document.getElementById('fitness-form').addEventListener('submit', function(even
 
     document.getElementById('fitness-form').reset();
 });
+document.getElementById('weight-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const weightInput = document.getElementById('weight');
+    const weight = parseFloat(weightInput.value);
+    
+    if (!isNaN(weight)) {
+        const enteredWeight = document.getElementById('entered-weight');
+        enteredWeight.textContent = `${weight} kg`;
+
+        weightInput.value = '';
+    } else {
+        alert('Please enter a valid weight.'); 
+    }
+});
+
 
 document.getElementById('goal-form').addEventListener('submit', function(event) {
     event.preventDefault();

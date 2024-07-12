@@ -140,3 +140,46 @@ button:hover {
     background-color: #007bff;
     transition: width 0.3s;
 }
+#weight-tracking {
+    margin-top: 20px;
+}
+
+#weight-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+#weight-form label,
+#weight-form input {
+    margin-bottom: 10px;
+}
+
+#weight-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#weight-display {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #007bff;
+    border-radius: 8px;
+    color: #fff;
+    text-align: center;
+}
+
+#weight-display h3 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+#entered-weight {
+    font-size: 2.5em;
+    font-weight: bold;
+}
