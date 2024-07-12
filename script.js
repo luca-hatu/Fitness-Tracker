@@ -3,9 +3,9 @@ let totalDistance = 0;
 let goalCalories = 0;
 let goalDistance = 0;
 let totalMealCalories = 0;
-let dailyCaloriesGoal = 2000; 
+let dailyCaloriesGoal = 2000;
 let hydrationAmount = 0;
-const hydrationGoal = 8; 
+const hydrationGoal = 8;
 
 const caloriesChartCtx = document.getElementById('calories-chart').getContext('2d');
 const distanceChartCtx = document.getElementById('distance-chart').getContext('2d');
@@ -17,7 +17,7 @@ const caloriesChart = new Chart(caloriesChartCtx, {
         labels: ['Burned', 'Remaining'],
         datasets: [{
             label: 'Calories Burned',
-            data: [0, 1], 
+            data: [0, 1],
             backgroundColor: ['#007bff', '#e9ecef'],
             borderWidth: 1
         }]
@@ -30,7 +30,7 @@ const distanceChart = new Chart(distanceChartCtx, {
         labels: ['Covered', 'Remaining'],
         datasets: [{
             label: 'Distance',
-            data: [0, 1], 
+            data: [0, 1],
             backgroundColor: ['#007bff', '#e9ecef'],
             borderWidth: 1
         }]
@@ -43,20 +43,21 @@ const nutritionChart = new Chart(nutritionChartCtx, {
         labels: ['Consumed', 'Remaining'],
         datasets: [{
             label: 'Nutrition Calories',
-            data: [0, dailyCaloriesGoal], 
+            data: [0, dailyCaloriesGoal],
             backgroundColor: ['#007bff', '#e9ecef'],
             borderWidth: 1
         }]
     }
 });
 
-document.getElementById('fitness-form').addEventListener('submit', function(event) {
+document.getElementById('fitness-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const activity = document.querySelector('input[name="activity"]:checked').value;
     const calories = parseInt(document.getElementById('calories').value) || 0;
     const distance = parseFloat(document.getElementById('distance').value) || 0;
     const memo = document.getElementById('memo').value;
+    const energyLevel = document.querySelector('input[name="energy-level"]:checked').value || 1; // Default to level 1 if not selected
 
     const sessionList = document.getElementById('session-list');
     const sessionItem = document.createElement('li');
@@ -64,6 +65,7 @@ document.getElementById('fitness-form').addEventListener('submit', function(even
     sessionItem.innerHTML = `
         <strong>${capitalizeFirstLetter(activity)}</strong><br>
         Calories: ${calories}, Distance: ${distance} km<br>
+        Energy Level: ${energyLevel}<br>
         Memo: ${memo}
     `;
 
@@ -76,24 +78,24 @@ document.getElementById('fitness-form').addEventListener('submit', function(even
 
     document.getElementById('fitness-form').reset();
 });
-document.getElementById('weight-form').addEventListener('submit', function(event) {
+
+document.getElementById('weight-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const weightInput = document.getElementById('weight');
     const weight = parseFloat(weightInput.value);
-    
+
     if (!isNaN(weight)) {
         const enteredWeight = document.getElementById('entered-weight');
         enteredWeight.textContent = `${weight} kg`;
 
         weightInput.value = '';
     } else {
-        alert('Please enter a valid weight.'); 
+        alert('Please enter a valid weight.');
     }
 });
 
-
-document.getElementById('goal-form').addEventListener('submit', function(event) {
+document.getElementById('goal-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     goalCalories = parseInt(document.getElementById('goal-calories').value) || 0;
@@ -103,7 +105,7 @@ document.getElementById('goal-form').addEventListener('submit', function(event) 
     updateProgress();
 });
 
-document.getElementById('nutrition-form').addEventListener('submit', function(event) {
+document.getElementById('nutrition-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const mealType = document.getElementById('meal-type').value;
@@ -126,7 +128,7 @@ document.getElementById('nutrition-form').addEventListener('submit', function(ev
     document.getElementById('nutrition-form').reset();
 });
 
-document.getElementById('sleep-form').addEventListener('submit', function(event) {
+document.getElementById('sleep-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const sleepStart = new Date(document.getElementById('sleep-start').value);
@@ -149,14 +151,14 @@ document.getElementById('sleep-form').addEventListener('submit', function(event)
     document.getElementById('sleep-form').reset();
 });
 
-document.getElementById('increase-hydration').addEventListener('click', function() {
+document.getElementById('increase-hydration').addEventListener('click', function () {
     if (hydrationAmount < hydrationGoal) {
         hydrationAmount++;
         updateHydration();
     }
 });
 
-document.getElementById('decrease-hydration').addEventListener('click', function() {
+document.getElementById('decrease-hydration').addEventListener('click', function () {
     if (hydrationAmount > 0) {
         hydrationAmount--;
         updateHydration();
@@ -164,12 +166,10 @@ document.getElementById('decrease-hydration').addEventListener('click', function
 });
 
 function updateProgress() {
-
     updateChartData(caloriesChart, totalCalories, goalCalories);
     updateChartData(distanceChart, totalDistance, goalDistance);
     updateChartData(nutritionChart, totalMealCalories, dailyCaloriesGoal);
 
-    
     const caloriesProgress = document.getElementById('calories-progress');
     const distanceProgress = document.getElementById('distance-progress');
     const nutritionProgress = document.getElementById('nutrition-progress');
@@ -178,7 +178,6 @@ function updateProgress() {
     distanceProgress.textContent = `Distance: ${totalDistance}/${goalDistance} km`;
     nutritionProgress.textContent = `Calories Consumed: ${totalMealCalories}/${dailyCaloriesGoal}`;
 
-    
     caloriesProgress.style.color = (totalCalories >= goalCalories && goalCalories > 0) ? 'green' : 'black';
     distanceProgress.style.color = (totalDistance >= goalDistance && goalDistance > 0) ? 'green' : 'black';
     nutritionProgress.style.color = (totalMealCalories >= dailyCaloriesGoal && dailyCaloriesGoal > 0) ? 'green' : 'black';
@@ -199,4 +198,3 @@ function updateChartData(chart, value, goal) {
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
-

@@ -38,6 +38,32 @@
                 <label for="memo">Memo:</label>
                 <textarea id="memo" name="memo"></textarea>
             </div>
+            <div class="input-group">
+                <label>Energy Level:</label>
+                <div id="energy-level" class="energy-level">
+                    <label>
+                        <input type="radio" name="energy-level" value="1" required>
+                        <i class="fas fa-battery-empty"></i>
+                    </label>
+                    <label>
+                        <input type="radio" name="energy-level" value="2">
+                        <i class="fas fa-battery-quarter"></i>
+                    </label>
+                    <label>
+                        <input type="radio" name="energy-level" value="3">
+                        <i class="fas fa-battery-half"></i>
+                    </label>
+                    <label>
+                        <input type="radio" name="energy-level" value="4">
+                        <i class="fas fa-battery-three-quarters"></i>
+                    </label>
+                    <label>
+                        <input type="radio" name="energy-level" value="5">
+                        <i class="fas fa-battery-full"></i>
+                    </label>
+                </div>
+            </div>
+            
             <button type="submit">Add Session</button>
         </form>
         <div id="goals">
@@ -105,6 +131,7 @@
                 <h3>Entered Weight:</h3>
                 <p id="entered-weight">-</p>
             </div>
+        </div>
         <div id="sessions">
             <h2>Sessions</h2>
             <ul id="session-list"></ul>
@@ -143,5 +170,6 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
